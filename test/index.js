@@ -64,5 +64,6 @@ function extractPath (scope) {
 describe('Babel Macros', function () {
   run("simple");
   run("multiples");
+  run("scope");
   run("callback");
 });
