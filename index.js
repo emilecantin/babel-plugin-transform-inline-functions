@@ -1,7 +1,5 @@
 'use strict';
 
-const _ = require("lodash");
-
 const argumentsInliningVisitor = {
   Identifier(path) {
     for(let i = 0; i < this.params.length; i++) {
