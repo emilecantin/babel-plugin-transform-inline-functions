@@ -1,5 +1,4 @@
-babel-plugin-transform-inline-functions
-=======================================
+# babel-plugin-transform-inline-functions
 
 This is a simple babel plugin to inline some specially marked functions.
 

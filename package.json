@@ -8,6 +8,11 @@
   },
   "author": "Emile Cantin",
   "license": "ISC",
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "inline",
+  ],
   "devDependencies": {
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.2",
