@@ -7,7 +7,7 @@ const argumentsInliningVisitor = {
         if(this.args[i]) {
           path.replaceWith(this.args[i]);
         } else {
-          path.remove();
+          path.replaceWithSourceString('undefined');
         }
       }
     };
