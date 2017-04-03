@@ -4,7 +4,7 @@ const argumentsInliningVisitor = {
   Identifier(path) {
     for(let i = 0; i < this.params.length; i++) {
       if (path.node.name === this.params[i].name) {
-        path.replaceWith(this.args[0]);
+        path.replaceWith(this.args[i]);
       }
     };
   }
