@@ -1,32 +1,29 @@
 {
   "name": "babel-plugin-transform-inline-functions",
   "version": "1.0.4",
-  "description": "",
+  "description": "A Babel plugin to inline selected functions",
   "main": "index.js",
-  "scripts": {
-    "test": "mocha"
-  },
+  "repository": "emilecantin/babel-plugin-transform-inline-functions",
   "author": "Emile Cantin",
   "license": "ISC",
+  "scripts": {
+    "doctoc": "markdown-toc --maxdepth 2 --bullets=- -i README.md",
+    "test": "ava --verbose ./test/*.js"
+  },
+  "files": [],
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.10.1",
+    "ava": "^3.8.2",
+    "markdown-toc": "^1.2.0",
+    "prettier": "^2.0.5"
+  },
   "keywords": [
     "babel",
     "babel-plugin",
-    "inline"
-  ],
-  "devDependencies": {
-    "babel-cli": "^6.5.1",
-    "babel-core": "^6.5.2",
-    "babel-eslint": "^4.1.6",
-    "babel-plugin-transform-flow-strip-types": "^6.5.0",
-    "babel-plugin-typecheck": "^3.6.1",
-    "babel-preset-es2015": "^6.5.0",
-    "babel-register": "^6.5.2",
-    "eslint": "^1.10.3",
-    "mocha": "^2.4.5",
-    "should": "^8.2.2"
-  },
-  "dependencies": {
-    "babel-traverse": "^6.5.0",
-    "babel-types": "^6.5.2"
-  }
+    "function",
+    "functions",
+    "inline",
+    "inlining"
+  ]
 }

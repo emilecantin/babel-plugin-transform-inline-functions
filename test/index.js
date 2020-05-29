@@ -1,69 +1,30 @@
-'use strict';
+const test                   = require('ava')
+const Fs                     = require('fs')
+const Path                   = require('path')
+const Prettier               = require('prettier')
+const { transformFileAsync } = require('@babel/core')
 
-import Plugin from '../index.js';
-import fs from 'fs';
-import {parse, transform, traverse, types as t} from 'babel-core';
+const fixtures = Path.join(__dirname, 'fixtures')
+const pluginPath = Path.resolve(__dirname, '..')
 
-
-function load (basename: string): string {
-  const filename = `${__dirname}/fixtures/${basename}.js`;
-  return fs.readFileSync(filename, 'utf8');
-}
-function save (basename: string, content:string) {
-  const filename = `${__dirname}/fixtures/${basename}.js`;
-  fs.writeFileSync(filename, content);
+function normalize (src) {
+    return Prettier.format(src.trim(), { parser: 'babel' })
 }
 
-function runTest (basename: string, expectedResult: mixed, args: Array = []): void {
-  const source = load(basename);
-  const transformed = transform(source, {"presets": ["es2015"], plugins: [Plugin]});
-  checkCode(basename, transformed.code);
+for (const name of Fs.readdirSync(fixtures)) {
+    const sourcePath = Path.resolve(fixtures, name, 'index.js')
+    const configPath = Path.resolve(fixtures, name, 'config.json')
+    const config = Fs.existsSync(configPath) ? require(configPath) : {}
+    const plugin = [pluginPath, config]
+
+    test(name, async t => {
+        const { code: transpiled } = await transformFileAsync(sourcePath, {
+            plugins: [plugin],
+            babelrc: false,
+        })
+
+        const got = normalize(transpiled)
+
+        t.snapshot(got, name)
+    })
 }
-
-function checkCode(basename: string) {
-  const filename = `${__dirname}/fixtures/${basename}.js`;
-  const source = load(basename);
-  const transformedNaked = transform(source, {"presets": [], plugins: [Plugin]}).code;
-  if(fs.existsSync(filename.replace('.js', '.expected.js'))) {
-    const expected = load(basename + '.expected');
-    transformedNaked.should.eql(expected);
-  } else {
-    save(basename + '.expected', transformedNaked);
-  }
-}
-
-function run (basename: string, expectedResult: mixed): void {
-  it(`should compile macros in "${basename}"`, function () {
-    runTest(basename, expectedResult);
-  });
-}
-
-run.only = function (basename: string, expectedResult: mixed): void {
-  it.only(`should compile macros in "${basename}"`, function () {
-    try {
-      runTest(basename, expectedResult);
-    }
-    catch (e) {
-      if (e.name !== 'AssertionError') {
-        console.error(e.stack);
-      }
-      throw e;
-    }
-  });
-};
-
-function extractPath (scope) {
-  const parts = [];
-  do {
-    parts.unshift(scope.block.type);
-  }
-  while (scope = scope.parent);
-  return parts.join(' ');
-}
-
-describe('Babel Macros', function () {
-  run("simple");
-  run("multiples");
-  run("scope");
-  run("callback");
-});

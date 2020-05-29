@@ -1,2 +1,0 @@
-
-"Mon beau test";

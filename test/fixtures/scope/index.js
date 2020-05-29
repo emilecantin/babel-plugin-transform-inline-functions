@@ -1,4 +1,3 @@
-
 function testScope() {
   function __INLINE__test(test) {
     return test;
